@@ -2,10 +2,19 @@ from flask import Flask, render_template, request,redirect, url_for, flash
 from flask_mysqldb import MySQL
 app = Flask(__name__)
 #conectar a la Base de Datos
+'''
+database: ifts16-spsa-tpif-flask
+username: py16yesgit8ukpl5hhhb
+host: aws-sa-east-1.connect.psdb.cloud
+password: pscale_pw_qO9b5GrBGP8D4GQGTDAXgdwba8ErLsC4zw8LNnvhtVC
+
+'''
 app.config['MYSQL_HOST'] ='localhost'
 app.config['MYSQL_USER'] ='admin' #susario
 app.config['MYSQL_PASSWORD'] ='root' #contraseña
 app.config['MYSQL_DB'] ='ifts16-spsa-tpif-flask' #nombre BD
+#app.config["MYSQL_CUSTOM_OPTIONS"] = {"ssl": {"ca": "/path/to/ca-file"}}  # https://mysqlclient.readthedocs.io/user_guide.html#functions-and-attributes
+
 mysql= MySQL(app)
 
 #settings
@@ -41,7 +50,7 @@ def alta_usuario():
         usuario = request.form['usuario']
         contrasenia = request.form['contrasenia']
         cur = mysql.connection.cursor()
-        cur.execute('INSERT INTO `usuario` (`nombre`, `apellido`, `dni`, `direccion`, `ususario`, `contrasenia`, `email`) VALUES (%s, %s, %s, %s, %s, %s, %s)', (nombre, apellido, dni, direccion, usuario, contrasenia, email))
+        cur.execute('INSERT INTO `usuario` (`nombre`, `apellido`, `dni`, `direccion`, `usuario`, `contrasenia`, `email`) VALUES (%s, %s, %s, %s, %s, %s, %s)', (nombre, apellido, dni, direccion, usuario, contrasenia, email))
         mysql.connection.commit()
         flash('Usario creado, ya puede ingresar')
         return redirect(url_for('index'))
@@ -81,7 +90,7 @@ def editar_user(id):
         usuario = request.form['usuario']
         contrasenia = request.form['contrasenia']
         cur = mysql.connection.cursor()
-        cur.execute('UPDATE `usuario` SET `nombre` = "%s", `apellido` = "%s", `dni` = "%s", `direccion` = "%s", `ususario` = "%s", `contrasenia` = "%s", `email` = "%s" WHERE `usuario`.`id_usuario` = %s;', (nombre, apellido, dni, direccion, usuario, contrasenia, email,id))
+        cur.execute('UPDATE `usuario` SET `nombre` = "%s", `apellido` = "%s", `dni` = "%s", `direccion` = "%s", `usuario` = "%s", `contrasenia` = "%s", `email` = "%s" WHERE `usuario`.`id_usuario` = %s;', (nombre, apellido, dni, direccion, usuario, contrasenia, email,id))
         mysql.connection.commit()
        # flash('Usuario actualizado')
         return redirect(url_for('muestra_usuario'))
